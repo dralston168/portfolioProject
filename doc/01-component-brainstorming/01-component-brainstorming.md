@@ -102,7 +102,7 @@ Below is further rationale/explanation for the rubric items above:
 > brainstorming. Plus it helps us get to know you better! Feel free to share
 > images in this section.
 
->I want to focus my componentds on my career interests in cybersecurity.
+>I want to focus my components on my career interests in cybersecurity.
 
 ## Assignment
 
@@ -218,49 +218,51 @@ will likely refine your design to make your implementation easier to use.
 
 - Logger: 
   - **Description**:
-    - public void add(String timestamp, String description)
-    - public Map.Pair<String,String> removeAny()
-    - public int length()
+    -A component that models logs of events with timestamps and event descriptions
   - **Kernel Methods**:
+    - public void add(String timestamp, String description) // add a log
+    - public Map.Pair<String,String> removeAny() // remove a random log
+    - public int length() // get the length of the log
+  - **Secondary Methods**:
     - public String description(String timestamp) // get the description for a time
     - public Map<String, String> getLogs(String day) // get all the logs on a given day
     - public String[] getErrors() // get an array of all the timestamps containing error messages
-  - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
   - **Additional Considerations** (*note*: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - This would be mutable because you can add and remove directly from the log
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - This would rely on Map.Pair because the logs are stored in pairs
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - You wouldn't need any because the methods do everything the component needs to do
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Example: getErrors would rely on removing logs and checking if the logs contain error messages and then adding them back to the log
+        Then you would add the logs timestamps with errors to an array
 
-- Encrytpion tool: <!-- TODO: give component a name then delete this comment -->
+- Encrytpion tool: 
   - **Description**:
-    - <!-- TODO: describe your component then delete this comment -->
+    - This tool encrypts and decrypts data using the AES symmetric encryption algorithm
   - **Kernel Methods**:
-    - <!-- TODO: list kernel methods then delete this comment -->
+    - public void generateKey() // generates a key and stores it in a local variable
+    - public void deleteKey() // reset the value of the local variable
   - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
+    - public void 
   - **Additional Considerations** (*note*: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - This would be mutable because the methods can directly change the value of the object
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - This would only rely on Java standard components
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - This component needs local variables and local constants for math in the methods
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Example: 
 
 ## Post-Assignment
 
