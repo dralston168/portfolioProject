@@ -193,13 +193,13 @@ will likely refine your design to make your implementation easier to use.
   - **Description**:
     - This component models a firewall that has IP addresses and an allow/deny permisson associated with the IP
   - **Kernel Methods**:
-    - public void add(String ip, String permission)
-    - public Map.Pair<String,String> remove (String ip)
-    - public int length()
+    - public void add(String ip, String permission) // add a firewall rule
+    - public Map.Pair<String,String> remove (String ip) // remove a firewall rule
+    - public int length() // get the amount of firewall rules
   - **Secondary Methods**:
-    - public String replacePermission(String ip, String permission)
-    - public String[] getAllowed()
-    - public String[] getDenied()
+    - public String replacePermission(String ip, String permission) // replaces a permission with allow/deny
+    - public String[] getAllowed() // get list of the allowed permissions
+    - public String[] getDenied() // get list of the denied permissions
   - **Additional Considerations** (*note*: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
@@ -209,7 +209,7 @@ will likely refine your design to make your implementation easier to use.
       - This would rely on Map.Pair because the firewall is any array of Map.Pairs
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - No it does not everything is contanied in the methods
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
       - Yes, you can use the kernel methods to implement the secondary methods such as
@@ -249,7 +249,12 @@ will likely refine your design to make your implementation easier to use.
     - public void generateKey() // generates a key and stores it in a local variable
     - public void deleteKey() // reset the value of the local variable
   - **Secondary Methods**:
-    - public void 
+    - public void keyExpansion() // expands the existing key
+    - public void keySchedule() // generates thre key schedule
+    - public void roundKey() // generates round keys
+    - public void subBytes() // byte substituiton
+    - public void shiftRows() // enchances the diffusion (the change in plaintext will cause a large change in cipher text)
+    - public void mixColumns() // also enhances diffusion
   - **Additional Considerations** (*note*: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
@@ -259,10 +264,11 @@ will likely refine your design to make your implementation easier to use.
       - This would only rely on Java standard components
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - This component needs local variables and local constants for math in the methods
+      - This component needs local variables and local constants for math in the methods. It would need a s-box (substituion box)
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - Example: 
+      - Example: You can implement roundKey() by taking generateKey() and deriving round keys from the orginal key that
+        was generated
 
 ## Post-Assignment
 
@@ -310,7 +316,6 @@ of development.
 
 ### Submission
 
-<!-- TODO: read the submission instructions then delete this comment -->
 
 If you have completed the assignment using this template, we recommend that
 you convert it to a PDF before submission. If you're not sure how, check out
@@ -320,7 +325,6 @@ all your work is there before submitting. For future assignments, you will
 just be submitting a link to a pull request. This will be the only time
 you have to submit any PDFs.
 
-<!-- TODO: upload a PDF of this document and the CHANGELOG to Carmen then delete this comment -->
 
 ### Peer Review
 
