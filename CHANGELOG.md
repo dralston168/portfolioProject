@@ -80,7 +80,17 @@ the following form: YYYY.0M.0D.
 - Added a firewall component design
 - Added a logger component design
 - Added an encryption tool component design
-- 
+
+## [2025-02-19]
+
+### Added
+
+- Designed a proof of concept for EncryptUtility component
+
+### Updated
+
+- Changed design to include new kernel methods that are more reasonable for implementation and that can be implemented using
+- StringBuilder
 
 [unreleased]: https://github.com/jrg94/portfolio-project/compare/v2024.08.07...HEAD
 [2024.08.07]: https://github.com/jrg94/portfolio-project/compare/v2024.01.07...v2024.08.07
