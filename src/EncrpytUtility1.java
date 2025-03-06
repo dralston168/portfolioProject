@@ -59,6 +59,7 @@ interface EncryptionUtility {
      * @return The decrypted plaintext.
      */
     StringBuilder decrypt(StringBuilder ciphertext);
+
 }
 
 public class EncrpytUtility1 implements EncryptionUtility {
