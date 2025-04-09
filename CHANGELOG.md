@@ -80,8 +80,21 @@ the following form: YYYY.0M.0D.
 - Added a firewall component design
 - Added a logger component design
 - Added an encryption tool component design
-- 
 
 [unreleased]: https://github.com/jrg94/portfolio-project/compare/v2024.08.07...HEAD
 [2024.08.07]: https://github.com/jrg94/portfolio-project/compare/v2024.01.07...v2024.08.07
 [2024.01.07]: https://github.com/jrg94/portfolio-project/releases/tag/v2024.01.07
+
+
+## [2025-04-09]
+
+### Removed
+
+- Removed all of the encrytUtility interfaces and proof of concept
+
+### Added
+
+- Added a new component design called KeyManger to manage encryption keys
+- Added an interface with kernel methods called KeyManagerKernel
+- Added an interface with secondary methods extending the kernel called KeyManager
+- Added an abstract class called KeyManagerSecondary
