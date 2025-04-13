@@ -20,7 +20,33 @@ import java.util.List;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
-
+/**
+ * @Convention
+ * 1. The KeyStore instance 'keystore' is always initialized - either empty or loaded from a file.
+ * 2. If 'password' is non-null, it contains the characters of the password used for the keystore.
+ * 3. If 'file' is non-null, it contains the path to the keystore file.
+ * 4. The 'metaData' map associates key IDs with metadata lists, where each list contains:
+ *    - Index 0: Key ID (String)
+ *    - Index 1: Timestamp of creation (String representation of milliseconds)
+ *    - Index 2: Access information (String)
+ *    - Index 3: Digital signature (Base64-encoded String)
+ * 5. 'keyID' holds the identifier of the most recently generated key.
+ * 6. All operations involving the keystore handle exceptions internally.
+ * 7. The environment variable "KEYSTORE_PASSWORD" must be set for keystore operations.
+ * 
+ * @Correspondence
+ * 1. This class represents a key management system that generates, stores, retrieves, 
+ *    and destroys cryptographic keys.
+ * 2. Each entry in the keystore corresponds to a secret key with its associated metadata.
+ * 3. The number of keys managed by this KeyManager corresponds to the number of entries 
+ *    in the keystore.
+ * 4. The security of the key management system corresponds to the strength of the 
+ *    cryptographic algorithms used (AES-256 for symmetric keys, RSA-2048 for asymmetric keys)
+ *    and the protection of the keystore password.
+ * 5. The 'metaData' map provides a layer of abstraction over the keystore, allowing for
+ *    additional information to be associated with each key without modifying the keystore format.
+ */
+ 
 public class KeyManager1 extends KeyManagerSecondary  {
     /*
      * Private members --------------------------------------------------------
