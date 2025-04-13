@@ -32,7 +32,7 @@ import javax.crypto.SecretKey;
  *    - Index 3: Digital signature (Base64-encoded String)
  * 5. 'keyID' holds the identifier of the most recently generated key.
  * 6. All operations involving the keystore handle exceptions internally.
- * 7. The environment variable "KEYSTORE_PASSWORD" must be set for keystore operations.
+ * 7. If the password or the truePassword is not set by the client then a new KeyStore will be generated
  * 
  * @Correspondence
  * 1. This class represents a key management system that generates, stores, retrieves, 
