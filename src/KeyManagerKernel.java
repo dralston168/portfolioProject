@@ -1,8 +1,10 @@
 import java.security.KeyPair;
 import java.util.List;
 import java.util.Map;
+import components.standard.*;
 
-public interface KeyManagerKernel {
+
+public interface KeyManagerKernel extends Standard<KeyManager>{
 
     // Kernel Methods
 
@@ -11,18 +13,17 @@ public interface KeyManagerKernel {
      *
      * @param keyID
      *            an ID assoicated with a key to keep track of the specific role of the key
+     * @param access
+     *            the access level associated with the generated key
      * @updates this.key
      * @returns the KeyPair associated with the digital signature of the key
      * @ensures this.key is a randomly generated 256-bit AES encryption key
      *
      */
-    KeyPair keyGenerator(String keyID);
+    KeyPair keyGenerator(String keyID, String access);
 
     /**
      * Transfers this.key into KEYSTORE
-     *
-     * @param keyName
-     *            The name that this.key will be stored under in KEYSTORE
      *
      * @clears this.key
      *
@@ -30,7 +31,7 @@ public interface KeyManagerKernel {
      *
      * @ensures this.key is stored into KEYSTORE under the name of KeyName
      */
-    void keyStorage(String keyName);
+    void keyStorage();
 
     /**
      * Retrieves a random key from the keystore
@@ -43,10 +44,12 @@ public interface KeyManagerKernel {
      *
      * @replaces metaData with a Map of this.metaData with the particular key name
      *           that matches KeyName
+     * 
+     * @updates this.key to be the secretKey from the KEYSTORE
      *
      * @requires keyName is a key in KEYSTORE
      *
-     *
+     * 
      * @ensures The key {KeyName} is retrieved from KEYSTORE (not removed) and metaData is a map
      *          with the keyName as the key and the metadata is a List<String> as the value associated
      *          with the key

@@ -9,7 +9,8 @@ public interface KeyManager extends KeyManagerKernel {
     /**
      * Generates a new key and replaces all of the keys in KEYSTORE
      *
-     * @requires Each call to keyRetreival produces metadata with one key name and valid usage at index [0]
+     * @requires Each call to keyRetreival produces metadata with one key name and valid usage at index [0] and
+     *           metaData is not empty 
      * 
      * @ensures KEYSTORE contains a new key at keyName and the previous key is
      *          archived or destroyed.
@@ -41,7 +42,7 @@ public interface KeyManager extends KeyManagerKernel {
      * metadata entry containing the specified access level.
      *
      * @param access
-     *            The access level to match (access key)
+     *            The access level to check each key for
      *
      * @return A list of key names in KEYSTORE whose metadata contains the
      *         access value
@@ -51,7 +52,7 @@ public interface KeyManager extends KeyManagerKernel {
      * @ensures a list of keys matching your associated access level is given and
      *          no modifications are made to the KEYSTORE
      */
-    List<String> findKeysByAccess(SecretKey access);
+    List<String> findKeysByAccess(String access);
 
     /**
      * Verifies the digital signature of each key in the KEYSTORE using the

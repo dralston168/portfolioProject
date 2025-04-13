@@ -35,10 +35,11 @@ public abstract class KeyManagerSecondary implements KeyManager {
             String keyName = metaData.keySet().iterator().next();
             List<String> values = metaData.get(keyName);
             String keyUse = values.get(0);
+            String keyAccess = values.get(2);
 
             this.keyDestruction(keyName);
-            this.keyGenerator(keyUse);
-            this.keyStorage(keyName);
+            this.keyGenerator(keyUse, keyAccess);
+            this.keyStorage();
         }
 
     }
@@ -82,28 +83,20 @@ public abstract class KeyManagerSecondary implements KeyManager {
 
             if (creationDates != null && !creationDates.isEmpty()) {
                 String creationDateStr = creationDates.get(1);
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat(
-                            "yyyy-MM-dd HH:mm:ss");
-                    Date creationDate = (Date) sdf.parse(creationDateStr);
-
-                    Instant creationInstant = creationDate.toInstant();
-                    Instant oneMonthAgo = Instant.now().minus(30,
-                            ChronoUnit.DAYS);
-
-                    if (creationInstant.isBefore(oneMonthAgo)) {
-                        this.keyDestruction(keyName);
-                    }
-                } catch (ParseException e) {
-                    System.err.println("Error parsing creation date for key "
-                            + keyName + ": " + e.getMessage());
+                long creationTimestamp = Long.parseLong(creationDateStr);
+                Date creationDate = new Date(creationTimestamp);
+                Instant creationInstant = creationDate.toInstant();
+                Instant oneMonthAgo = Instant.now().minus(30,
+                        ChronoUnit.DAYS);
+                if (creationInstant.isBefore(oneMonthAgo)) {
+                    this.keyDestruction(keyName);
                 }
             }
         }
     }
 
     @Override
-    public List<String> findKeysByAccess(SecretKey access) {
+    public List<String> findKeysByAccess(String access) {
         int size = this.size();
         List<String> accessibleKeys = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -113,7 +106,7 @@ public abstract class KeyManagerSecondary implements KeyManager {
             List<String> values = metaData.get(keyName);
             String accessKey = values.get(2);
             if (accessKey.equals(
-                    Base64.getEncoder().encodeToString(access.getEncoded()))) {
+                    access)) {
                 accessibleKeys.add(keyName);
             }
         }
