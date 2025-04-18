@@ -307,12 +307,16 @@ Take some time to fill them out honestly.
 > complete the portfolio project, how much better (or worse) do you think you
 > understand software development and why?
 
-<!-- TODO: discuss -->
+>I think that I understand software development a lot better because in this design I
+>used a lot of real world external libraries and got to learn a lot about components
+>that real software developers use
 
 > Also, did the portfolio project surface any gaps in your own knowledge of
 > software development. If so, what are those gaps and how did you address them?
 
-<!-- TODO: discuss -->
+>This project helped me understand the concept of abstract classes and kernel intefaces a lot better.
+>I learned that the abstract class relies on the kernel interface and for that reason the kernel interface
+>needs to have methods that all the secondary methods can be implemented using.
 
 > Finally, as a part of completing the portfolio project, to what extent has
 > your perspective of software development changed, if at all? In other words,
@@ -326,25 +330,34 @@ Take some time to fill them out honestly.
 > this process. Therefore, the first question is what skills did you pick up
 > through this process?
 
-<!-- TODO: discuss -->
+>I picked up a lot of new coding skills from using a lot of libraries I have never used that are
+>designed very different from the OSU library components. I also learned the creative process of making a 
+>software component. There is a lot of design choice that goes into making the component both usable
+>but also reasonable and you have full control over what the component can actually do.
 
 > The follow-up question is: could you rephrase these skills you picked up
 > as bullet points that you could put on a resume? Try it below.
 
-<!-- TODO: discuss -->
+>Designed a software component
+>Worked with many external security libraries
+>Documented software to make it understandable by the client
 
 > Next, how has working on this project affected your career trajectory?
 > In other words, do you now hate the topic you picked? Or, are you even more
 > interested in it? Both outcomes are valuable to your personal development.
 
-<!-- TODO: discuss -->
+>This has really helped understand a lot more about the software behind security which
+>is ultimatlely what I want to get into in my career. It has helped decide that this is something
+>that I really want to do as a career.
 
 > Finally, consider the skills you've picked up and your current career
 > trajectory. What are some things you could do to continue on your
 > career trajectory? Also, who are some mentors you could contact to help
 > you stay on your path?
 
-<!-- TODO: discuss -->
+>I want to make more components that are valuable to security and I want to use these projects to help
+>me get involved in the professional world and connect with professional people that can help me take
+>my career where I want it to go.
 
 ### Changelog
 

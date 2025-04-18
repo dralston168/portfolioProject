@@ -98,3 +98,15 @@ the following form: YYYY.0M.0D.
 - Added an interface with kernel methods called KeyManagerKernel
 - Added an interface with secondary methods extending the kernel called KeyManager
 - Added an abstract class called KeyManagerSecondary
+
+## [20025-04-18]
+
+### Added
+
+- Designed test suite for keyManager component
+- Designed two different use cases for keyManager component
+
+### Updated
+
+-Fixed bugs in the main files of my component
+

@@ -1,30 +1,33 @@
+package components.keymanager;
 import java.security.PublicKey;
 import java.util.List;
 
 import javax.crypto.SecretKey;
 
+/**
+ * Interface for a comprehensive key management system that extends the core
+ * functionality provided by KeyManagerKernel with additional key management operations.
+ */
 public interface KeyManager extends KeyManagerKernel {
     // Secondary Methods
 
     /**
-     * Generates a new key and replaces all of the keys in KEYSTORE
+     * Generates a new key and replaces all of the keys in KEYSTORE.
      *
-     * @requires Each call to keyRetreival produces metadata with one key name and valid usage at index [0] and
-     *           metaData is not empty 
-     * 
+     * @requires Each call to keyRetreival produces metadata with one key name and
+     *           valid usage at index [0] and metaData is not empty
      * @ensures KEYSTORE contains a new key at keyName and the previous key is
      *          archived or destroyed.
      */
     void keyRotation();
 
     /**
-     * Exports a log of all keys and their details
+     * Exports a log of all keys and their details.
      *
      * @param filePath
      *            The path of the file you want to contain the log
-     * @ensures
-     *            The file contains all the keys and there associated data if the file path exists and throws
-     *            an error if it doesn't. No changes are made to the KEYSTORE
+     * @ensures The file contains all the keys and there associated data if the file
+     *          path exists and throws an error if it doesn't. No changes are made to the KEYSTORE
      */
     void exportKeyLog(String filePath);
 
@@ -32,7 +35,6 @@ public interface KeyManager extends KeyManagerKernel {
      * Destroys all keys that have expired.
      *
      * @requires The keys have a creation date metaData stored at index [1] of the List
-     * 
      * @ensures All expired keys are removed from the KEYSTORE.
      */
     void cleanupExpiredKeys();
@@ -43,12 +45,9 @@ public interface KeyManager extends KeyManagerKernel {
      *
      * @param access
      *            The access level to check each key for
-     *
      * @return A list of key names in KEYSTORE whose metadata contains the
      *         access value
-     *
      * @requires KEYSTORE is initialized and contains metadata entries for keys at index [2]
-     *
      * @ensures a list of keys matching your associated access level is given and
      *          no modifications are made to the KEYSTORE
      */
@@ -65,16 +64,13 @@ public interface KeyManager extends KeyManagerKernel {
      * @param publicKey
      *            The public key corresponding to the private key that signed
      *            the key names.
-     *
      * @return {true} if all the key's signature are valid (i.e.,
      *         correctly signed with the matching private key), {false}
      *         otherwise.
-     *
      * @requires KEYSTORE is initialized and contains at least one key. -
      *           Metadata for each key includes a Base64-encoded digital
      *           signature at index 3 of its value list. - Each key name was
      *           originally signed using the corresponding private key.
-     *
      * @ensures No modifications are made to the KEYSTORE. Returns true if
      *          any signature is successfully verified using the given public
      *          key.

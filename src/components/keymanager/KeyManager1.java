@@ -1,3 +1,6 @@
+package components.keymanager;
+
+
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -67,7 +70,7 @@ public class KeyManager1 extends KeyManagerSecondary  {
 
     private String file;
 
-    private byte[] truePassword;
+    
 
     /**
      * Creator of initial representation.
@@ -75,65 +78,42 @@ public class KeyManager1 extends KeyManagerSecondary  {
     private void createNewRep() {
 
         // TODO - fill in body
-        
-        if(password==null||truePassword==null) {
-            try {
-                this.keystore = KeyStore.getInstance("JKS");
-                this.keystore.load(null, null); 
-                this.metaData = new HashMap<>();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(truePassword.equals(password)){
-            try (FileInputStream fis = new FileInputStream(this.file)) {
-                this.keystore = KeyStore.getInstance("JKS");
-                // Attempt to load with the given password
-                StringBuilder sb = new StringBuilder();
-                for (byte b : this.password) {
-                sb.append((char) b); // cast byte to char
-}               char[] charArray = new char[sb.length()];
-
-                for (int i = 0; i < sb.length(); i++) {
-                charArray[i] = sb.charAt(i);
-            }
-                keystore.load(fis, charArray);
-                this.metaData = new HashMap<>();
-                System.out.println("Keystore successfully loaded.");
-            } catch (Exception e) {
-                System.err.println("Failed to load keystore: " + e.getMessage());
-                e.printStackTrace();
-            }
+        try {
+            // Initialize a new empty keystore instance
+            this.keystore = KeyStore.getInstance("JKS");
+            
+            // Load with null parameters to initialize an empty keystore
+            this.keystore.load(null, null);
+            
+            // Initialize metadata storage
+            this.metaData = new HashMap<>();
+            
+            System.out.println("New keystore created successfully.");
+        } catch (KeyStoreException e) {
+            System.err.println("Failed to get keystore instance: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Failed to create new keystore: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+    
 
     /*
      * Constructors -----------------------------------------------------------
      */
 
     /**
-     * constructor for exsisting keystore
+     * constructor for new keystore
      */
-    public KeyManager1(byte[] password,String file, byte[] access, byte[] truePassword) {
+    public KeyManager1(byte[] password) {
 
         // TODO - fill in body
         this.password = password;
-        this.file = file;
-        this.truePassword = truePassword;
         this.createNewRep();
 
     }
 
-    /**
-     * construtor for new keystore
-     */
-
-    public KeyManager1(){
-        this.createNewRep();
-    }
 
     /*
      * Standard methods -------------------------------------------------------
@@ -171,37 +151,35 @@ public class KeyManager1 extends KeyManagerSecondary  {
         assert source != null : "Violation of: source is not null";
         assert source != this : "Violation of: source is not this";
         assert source instanceof KeyManager1 : ""
-                + "Violation of: source is of dynamic type NaturalNumberExample";
-        /*
-         * This cast cannot fail since the assert above would have stopped
-         * execution in that case.
-         */
+            + "Violation of: source is of dynamic type KeyManager1";
+        
+        // This cast cannot fail since the assert above would have stopped
+        // execution in that case.
         KeyManager1 localSource = (KeyManager1) source;
         
-         // Clear this keystore first
-         this.clear();
-    
+        // Clear this keystore first
+        this.clear();
+        
         // Copy password and file references
         this.password = localSource.password;
         this.file = localSource.file;
-    
-        // Copy all keys and metadata from source to this
-        int sourceSize = localSource.size();
-        for (int i = 0; i < sourceSize; i++) {
-        Map<String, List<String>> metaData = new HashMap<>();
-        localSource.keyRetreival(metaData);
         
-        // Get the first key name from metadata (as done in keyRetreival)
-        String keyName = metaData.keySet().iterator().next();
-        List<String> keyMetadata = metaData.get(keyName);
+        // Create a snapshot of source's metadata to avoid modification during iteration
+        Map<String, List<String>> sourceMetaData = new HashMap<>(localSource.metaData);
         
-        // Generate a key with the same name and access level
-        String keyID = keyMetadata.get(0);
-        String access = keyMetadata.get(2);
-        this.keyGenerator(keyID, access);
-        this.keyStorage();
-    }
-    
+        // For each key in source, generate a new key in this with the same metadata
+        for (Map.Entry<String, List<String>> entry : sourceMetaData.entrySet()) {
+            String keyName = entry.getKey();
+            List<String> keyMetadata = entry.getValue();
+            
+            // Extract access level (index 2)
+            String access = keyMetadata.get(2);
+            
+            // Generate and store a new key with the same name and access level
+            this.keyGenerator(keyName, access);
+            this.keyStorage();
+        }
+        
         // Clear the source
         localSource.clear();
     }
@@ -255,7 +233,9 @@ public class KeyManager1 extends KeyManagerSecondary  {
     public void keyStorage() {
         try {
             // Create a password for the key entry
-            char[] password = System.getenv("KEYSTORE_PASSWORD").toCharArray();
+            byte[] byteArray = this.password; // corresponds to "Hello"
+            String str = new String(byteArray, StandardCharsets.UTF_8);
+            char[] password= str.toCharArray();
             
             // Create a KeyStore.ProtectionParameter for the key
             KeyStore.PasswordProtection protParam = 
@@ -276,35 +256,49 @@ public class KeyManager1 extends KeyManagerSecondary  {
 
     @Override
     public void keyRetreival(Map<String, List<String>> metaData) {
-        try {
-        // Clear and populate the provided map with metadata
-        metaData.clear();
-        metaData.putAll(this.metaData);
-        
-        // If there's at least one key in the metadata
-        if (!metaData.isEmpty()) {
-            // Get the first key name from the metadata
-            String keyName = metaData.keySet().iterator().next();
-            
-            // Create a password for key retrieval (should match the one used in keyStorage)
-            char[] password =  System.getenv("KEYSTORE_PASSWORD").toCharArray();
-            
-            // Create a protection parameter for the key
-            KeyStore.PasswordProtection protParam = 
-                new KeyStore.PasswordProtection(password);
-            
-            // Retrieve the secret key entry from the keystore
-            KeyStore.SecretKeyEntry skEntry = (KeyStore.SecretKeyEntry) 
-                this.keystore.getEntry(keyName, protParam);
-            
-            // Set this.key to the retrieved secret key
-            if (skEntry != null) {
-                this.key = skEntry.getSecretKey();
-            }
+        if (metaData == null) {
+            throw new IllegalArgumentException("Metadata map cannot be null");
         }
-    } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableEntryException e) {
-        e.printStackTrace();
-    }
+        
+        try {
+            // If no keys in the keystore, return an empty map
+            if (this.metaData.isEmpty()) {
+                metaData.clear();
+                return;
+            }
+            
+            // Pick one key from metadata (for demonstration purposes, taking the first one)
+            String keyName = this.metaData.keySet().iterator().next();
+            List<String> metadata = this.metaData.get(keyName);
+            
+            // Clear and add just this one key to the provided map
+            metaData.clear();
+            metaData.put(keyName, new ArrayList<>(metadata));
+            
+            // Retrieve the actual key from the keystore
+            if (this.password != null) {
+                // Convert byte[] password to char[]
+                String passStr = new String(this.password, StandardCharsets.UTF_8);
+                char[] passwordChars = passStr.toCharArray();
+                
+                // Create a protection parameter for the key
+                KeyStore.PasswordProtection protParam =
+                    new KeyStore.PasswordProtection(passwordChars);
+                
+                // Retrieve the secret key entry from the keystore
+                KeyStore.SecretKeyEntry skEntry = (KeyStore.SecretKeyEntry)
+                    this.keystore.getEntry(keyName, protParam);
+                
+                // Set this.key to the retrieved secret key
+                if (skEntry != null) {
+                    this.key = skEntry.getSecretKey();
+                }
+            }
+        } catch (KeyStoreException | NoSuchAlgorithmException | 
+                UnrecoverableEntryException e) {
+            e.printStackTrace();
+            metaData.clear(); // Clear the map on error
+        }
     }
 
     @Override
